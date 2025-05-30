@@ -1,3 +1,4 @@
 faster-whisper
+psutil
 streamlit
 torch

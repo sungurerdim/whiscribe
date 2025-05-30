@@ -6,7 +6,7 @@
 # For the full license text, see the LICENSE file in this repository.
 # -----------------------------------------------------------------------------
 
-import io, os, time
+import io, os, time, psutil
 from typing import Optional
 
 import streamlit as st
@@ -33,6 +33,7 @@ def load_model(size: str, cache_dir: Optional[str] = None) -> WhisperModel:
         compute_type="int8",
         download_root=cache_dir or None,
         local_files_only=False,
+        cpu_threads=min(1, psutil.cpu_count(logical=True)-1)
     )
 
 def transcribe_bytes(buf: bytes,
@@ -81,6 +82,7 @@ with st.sidebar:
             "Systran/faster-whisper-small",
             "Systran/faster-whisper-medium",
             "Systran/faster-whisper-large-v3",
+            "Systran/faster-distil-whisper-large-v3",
         ],
         index=2,
     )
